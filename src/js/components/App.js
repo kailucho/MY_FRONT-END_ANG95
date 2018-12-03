@@ -8,7 +8,7 @@ import UserNav from './Otros/UserNav';
 import NotificacionNav from './Otros/NotificacionNav';
 import MensajeNav from "./Otros/MensajesNav";
 import Inicio from './Inicio/Inicio';
-import MetradosDiarios from './ProcesoFisicos/MetradosDiarios';
+import MetradosDiarios from './Pacientes/pacientes';
 import Ingreso from './Otros/Ingreso';    
 
 class AppAng extends Component {
