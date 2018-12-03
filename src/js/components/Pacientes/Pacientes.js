@@ -24,7 +24,7 @@ class MetradosDiarios extends Component {
           })
       })
       .catch(function (error) {
-          console.log(error);
+          console.log('ocurrió un error al realizar la petición GET',error);
       });
   }
 
