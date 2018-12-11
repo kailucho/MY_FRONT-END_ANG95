@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FaAlignJustify, FaChartLine, FaHome, FaHouseDamage, FaInfinity, FaPeopleCarry, FaLinode, FaSuperscript, FaAngleDown } from 'react-icons/fa';
+import { FaAlignJustify, FaChartLine, FaHome, FaHouseDamage, FaInfinity, FaPeopleCarry, FaLinode, FaSuperscript, FaAngleRight } from 'react-icons/fa';
 import { UncontrolledCollapse } from 'reactstrap';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -9,7 +9,9 @@ import NotificacionNav from './Otros/NotificacionNav';
 import MensajeNav from "./Otros/MensajesNav";
 import Inicio from './Inicio/Inicio';
 import MetradosDiarios from './Pacientes/pacientes';
-import Ingreso from './Otros/Ingreso';    
+import Ingreso from './Otros/Ingreso';
+import Profesiones from './Administracion/Profesiones'    
+import Login from './Login/Login'    
 
 class AppAng extends Component {
     constructor(){
@@ -67,7 +69,7 @@ class AppAng extends Component {
                                         </li>
 
                                         <li className="lii">
-                                            <a className="nav-link"  href="#about" id="ADMINS"><FaSuperscript /><span> ADMINISIÓN <div className="float-right"><FaAngleDown /></div> </span> </a>
+                                            <a className="nav-link"  href="#about" id="ADMINS"><FaSuperscript /><span> ADMINISIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
                                                 <UncontrolledCollapse toggler="#ADMINS">
                                                     <ul className="nav flex-column ull">
                                                         <li className="lii">
@@ -81,7 +83,7 @@ class AppAng extends Component {
                                         </li>
 
                                         <li className="lii">
-                                            <a className="nav-link"  href="#about" id="CONFIG"><FaPeopleCarry /><span> CONFIGURACIÓN <div className="float-right"><FaAngleDown /></div> </span> </a>
+                                            <a className="nav-link"  href="#about" id="CONFIG"><FaPeopleCarry /><span> CONFIGURACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
                                                 <UncontrolledCollapse toggler="#CONFIG">
                                                     <ul className="nav flex-column ">
                                                         <li className="lii">
@@ -98,7 +100,7 @@ class AppAng extends Component {
                                         </li>
                                         
                                         <li className="lii">
-                                            <a className="nav-link"  href="#about" id="ADMIM"><FaSuperscript /><span> ADMINISTRACIÓN <div className="float-right"><FaAngleDown /></div> </span> </a>
+                                            <a className="nav-link"  href="#about" id="ADMIM"><FaSuperscript /><span> ADMINISTRACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
                                                 <UncontrolledCollapse toggler="#ADMIM">
                                                     <ul className="nav flex-column ">
                                                         <li className="lii">
@@ -109,6 +111,9 @@ class AppAng extends Component {
                                                         </li>
                                                         <li className="lii">
                                                             <a className="nav-link" href="#about">Consultorios</a>
+                                                        </li>
+                                                        <li className="lii">
+                                                            <Link to="Profesiones" className="nav-link">Profesiones</Link>
                                                         </li>
                                                     </ul>
                                                 </UncontrolledCollapse>
@@ -135,9 +140,10 @@ class AppAng extends Component {
                                 </div>
 
                                 <div className="px-1">
-                                    <Route exact path="/" component={Inicio} />
+                                    <Route exact path="/" component={Login} />
                                     <Route path ="/Inicio" component={Inicio} />
                                     <Route path="/MetradosDiarios" component={MetradosDiarios} />
+                                    <Route path="/Profesiones" component={Profesiones} />
                                     <Route path="/Ingreso" component={Ingreso} />
                                     <Route path="/topics" component={Topics} />
                                     {/* <br/>
