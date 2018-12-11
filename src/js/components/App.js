@@ -104,16 +104,16 @@ class AppAng extends Component {
                                                 <UncontrolledCollapse toggler="#ADMIM">
                                                     <ul className="nav flex-column ">
                                                         <li className="lii">
-                                                            <Link to="MetradosDiarios" className="nav-link"><FaLinode /> Empleados</Link>
+                                                            <Link to="MetradosDiarios" className="nav-link pl-4"><FaLinode /> Empleados</Link>
                                                         </li>
                                                         <li className="lii">
-                                                            <a className="nav-link" href="#about">Empleados</a>
+                                                            <a className="nav-link pl-4" href="#about">Empleados</a>
                                                         </li>
                                                         <li className="lii">
-                                                            <a className="nav-link" href="#about">Consultorios</a>
+                                                            <a className="nav-link pl-4" href="#about">Consultorios</a>
                                                         </li>
                                                         <li className="lii">
-                                                            <Link to="Profesiones" className="nav-link">Profesiones</Link>
+                                                            <Link to="Profesiones" className="nav-link pl-4">Profesiones</Link>
                                                         </li>
                                                     </ul>
                                                 </UncontrolledCollapse>
@@ -125,7 +125,7 @@ class AppAng extends Component {
                             <main role="main" className="col ml-sm-auto col-lg px-2">
                                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                     <h6 className="">
-                                        demos
+                                        BIENVENIDO HOY ES : {Date()}
                                     </h6>
                                     <div className="btn-toolbar mb-2 mb-md-0">
                                         <div className="btn-group mr-2">

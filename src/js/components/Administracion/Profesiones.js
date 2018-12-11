@@ -8,10 +8,14 @@ class Profesiones extends Component {
         super();
         this.state = {
           data: [],
-          modal: false
+          modal: false,
+          InputnombProfesion: '',
+          toastId: null
         };
         this.toggle = this.toggle.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        
     }
     
     componentDidMount(){
@@ -33,23 +37,28 @@ class Profesiones extends Component {
           modal: !this.state.modal
         });
     }
-
+    handleChange(event) {
+        this.setState({InputnombProfesion: event.target.value});
+    }
+    
     handleSubmit(event) {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        
+        const { InputnombProfesion } = this.state
         // ENVIA DATOS AL SERVIDOR-------------------------------------------------------
         axios.post('http://localhost:3000/profesiones', {
-            nombProfesion: data
+            nombProfesion: InputnombProfesion.toUpperCase()
           })
-          .then(function (res) {
+          .then((res)=> {
+            alert(`PERFECT!!!`, res)         
             console.log(res);
+            
           })
-          .catch(function (error) {
-            console.log(`Ocurrió un error al enviar el nombre de la profesion :`,error);
+          .catch( (error)=> {         
+            alert(`Ocurrió un error al tratar de crear la profesión`, error)
+            console.log(`Ocurrió un error al enviar el nombre de la profesion, `,error);
           });
 
-        console.log('>data>', data);
+        console.log('data>', InputnombProfesion);
+        event.preventDefault();
         
     }
     render() {
@@ -58,8 +67,8 @@ class Profesiones extends Component {
             <div>
                 <div className="card">
                     <div className="card-header p-1">
-                            <label className="float-left pt-2"><b> LISTA DE PROFESIONES</b></label>
-                            <button className="btn btn-sm float-right m-0" onClick={this.toggle}><FaPlus /> Nuevo</button>
+                        <label className="float-left pt-2"><b> LISTA DE PROFESIONES</b></label>
+                        <button className="btn btn-sm float-right m-0" onClick={this.toggle}><FaPlus /> Nuevo</button>
                     </div>
                     <div className="card-body p-0">
                         <table className="table table-hover m-0">
@@ -92,12 +101,12 @@ class Profesiones extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
                             <FormGroup>
-                                <Label for="exampleEmail"><b>REGISTRAR NUEVA PROFESIÓN</b></Label>
-                                <Input type="text" name="nombProfesion" placeholder="Ejem. ENFERMERIA" className="text-uppercase" />
+                                <Label for="nombProfesion"><b>REGISTRAR NUEVA PROFESIÓN</b></Label>
+                                <Input type="text"  name="nombProfesion" placeholder="Ejem. ENFERMERIA" className="text-uppercase" value={this.state.InputnombProfesion} onChange={this.handleChange} />
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter className="p-2 bg-light">
-                            <Button color="primary" className="btn btn-sm btn-outline-primary ml-1 p-1"><FaSave size="1em"/> Guardar</Button>{' '}
+                            <Button color="primary" type="submit" className="btn btn-sm btn-outline-primary ml-1 p-1"><FaSave size="1em"/> Guardar</Button>{' '}
                             <Button color="secondary" className="btn btn-sm btn-outline-danger ml-1 p-1" onClick={this.toggle}> <FaTimes /> Cancelar</Button>
                         </ModalFooter>
                     </Form>
