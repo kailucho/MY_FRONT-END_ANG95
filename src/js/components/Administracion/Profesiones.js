@@ -43,9 +43,11 @@ class Profesiones extends Component {
     
     handleSubmit(event) {
         const { InputnombProfesion } = this.state
+
         // ENVIA DATOS AL SERVIDOR-------------------------------------------------------
         axios.post('http://localhost:3000/profesiones', {
-            nombProfesion: InputnombProfesion.toUpperCase()
+            nombProfesion: InputnombProfesion.toUpperCase(),
+            headers: {'Authorization': "bearer " +"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViZmI0MjlhYmFmOWMyMTQzNDAzZGY4NiIsImlhdCI6MTU0NDUzODAxMCwiZXhwIjoxNTQ0NjI0NDEwfQ.qr5iDZpodVYHhmHy9hgJBGtGbmIRSQOwCUlP4MKuKBg"}
           })
           .then((res)=> {
             alert(`PERFECT!!!`, res)         

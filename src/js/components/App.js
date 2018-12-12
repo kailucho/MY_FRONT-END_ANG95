@@ -61,7 +61,7 @@ class AppAng extends Component {
                             <nav className={this.state.navbarExpland ? 'col-md-2 navbarExpland d-none d-md-block bg-light sidebar': "navbarCollapse bg-light sidebar"}>
                                 <div className="sidebar-sticky">
                                     <ul className="nav flex-column ull">
-                                        <li className="lii">
+                                        <li className="lii border-top">
                                             <Link to="/Inicio" className="nav-link"> <FaHouseDamage /><span> INICIO</span> </Link>
                                         </li>
                                         <li className="lii">
@@ -118,7 +118,11 @@ class AppAng extends Component {
                                                     </ul>
                                                 </UncontrolledCollapse>
                                         </li>
+                                        
                                     </ul>
+                                    
+                                       
+                                        
                                 </div>
                             </nav>
 
