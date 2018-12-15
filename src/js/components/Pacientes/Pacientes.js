@@ -16,9 +16,9 @@ class MetradosDiarios extends Component {
   }
 
   componentWillMount(){
-    axios.get('http://localhost:4200/Atenciones')
+    axios.get('http://localhost:3000/examenes')
       .then((res) => {
-          // console.log('rest',res.data);
+          console.log('rest',res.data);
           this.setState({
             dataExamenes: res.data
           })
@@ -45,31 +45,31 @@ class MetradosDiarios extends Component {
                 className={classnames({ active: this.state.activeTab === (i+1).toString() })}
                 onClick={() => { this.toggle((i+1).toString()); }}
               >
-                {examen.nomb_examen_1}
+                {examen.nomb_examen}
               </NavLink>
             </NavItem>
           )}
         </Nav>
 
-        <TabContent activeTab={this.state.activeTab} className="border border-top-0 p-2">
+        <TabContent activeTab={this.state.activeTab} className="border border-top-0 p-2 bg-white">
 
           {this.state.dataExamenes.map((examen , i)=>
           
-            <TabPane tabId={(i+1).toString()} key={ i } >
+            <TabPane tabId={(i+1).toString()} key={ i }>
               <Row>
-                {examen.sub2.map((subExam , ind ) =>
+                {examen.grupo1.map((subExam , ind ) =>
 
                   <Col sm="3" key={ ind }>
                     <fieldset>
-                      <legend>{subExam.nomb_examen_2} </legend>
+                      <legend>{subExam.nomb_examenGrupo1} </legend>
                 
                           <form action="">
                             <div className="d-flex flex-column-reverse">
-                              {subExam.sub3.map((subExam3, inde)=>
+                              {subExam.grupo2.map((subExam2, inde)=>
 
                                 <label key={ inde }>
-                                  <input type="checkbox" name="" id="" value="opcion1" /> { ' ' }
-                                    {subExam3.nomb_examen_3}                              
+                                  <input type="checkbox" name={subExam2.nombExamen2} value="opcion1" /> { ' ' }
+                                    {subExam2.nombExamen2}                              
                                 </label>
                               )}
 
