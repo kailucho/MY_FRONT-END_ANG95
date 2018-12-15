@@ -226,3 +226,8 @@ body::-webkit-scrollbar-thumb {
   background-color: rgb(195, 202, 190);
   outline: 5px solid rgb(255, 0, 0);
 }
+
+/* navs bs4 */
+.nav-item{
+  cursor: pointer;
+}

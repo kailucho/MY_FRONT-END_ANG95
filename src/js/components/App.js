@@ -73,7 +73,7 @@ class AppAng extends Component {
                                                 <UncontrolledCollapse toggler="#ADMINS">
                                                     <ul className="nav flex-column ull">
                                                         <li className="lii">
-                                                            <Link to="MetradosDiarios" className="nav-link"><FaLinode /> Pacientes</Link>
+                                                            <Link to="NuevaAtencion" className="nav-link"><FaLinode /> Pacientes</Link>
                                                         </li>
                                                         <li className="lii">
                                                             <a className="nav-link" href="#about"> <FaLinode /> Referir</a>
@@ -87,7 +87,7 @@ class AppAng extends Component {
                                                 <UncontrolledCollapse toggler="#CONFIG">
                                                     <ul className="nav flex-column ">
                                                         <li className="lii">
-                                                            <Link to="MetradosDiarios" className="nav-link"><FaLinode /> Diarios</Link>
+                                                            <Link to="NuevaAtencion" className="nav-link"><FaLinode /> Diarios</Link>
                                                         </li>
                                                         <li className="lii">
                                                             <a className="nav-link" href="#about">sub--</a>
@@ -104,7 +104,7 @@ class AppAng extends Component {
                                                 <UncontrolledCollapse toggler="#ADMIM">
                                                     <ul className="nav flex-column ">
                                                         <li className="lii">
-                                                            <Link to="MetradosDiarios" className="nav-link pl-4"><FaLinode /> Empleados</Link>
+                                                            <Link to="NuevaAtencion" className="nav-link pl-4"><FaLinode /> Empleados</Link>
                                                         </li>
                                                         <li className="lii">
                                                             <a className="nav-link pl-4" href="#about">Empleados</a>
@@ -118,11 +118,7 @@ class AppAng extends Component {
                                                     </ul>
                                                 </UncontrolledCollapse>
                                         </li>
-                                        
                                     </ul>
-                                    
-                                       
-                                        
                                 </div>
                             </nav>
 
@@ -146,7 +142,7 @@ class AppAng extends Component {
                                 <div className="px-1">
                                     <Route exact path="/" component={Login} />
                                     <Route path ="/Inicio" component={Inicio} />
-                                    <Route path="/MetradosDiarios" component={MetradosDiarios} />
+                                    <Route path="/NuevaAtencion" component={MetradosDiarios} />
                                     <Route path="/Profesiones" component={Profesiones} />
                                     <Route path="/Ingreso" component={Ingreso} />
                                     <Route path="/topics" component={Topics} />
