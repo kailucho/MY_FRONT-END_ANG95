@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bc-react-session": "^1.5.1",
     "react-filterable-table": "^0.3.432",
     "react-icons": "^3.2.1",
     "react-router-dom": "^4.3.1",

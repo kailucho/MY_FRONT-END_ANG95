@@ -1,12 +1,9 @@
 body {
   font-size: .789rem !important;
-  background-color: #343a4005!important;
+  background-color: #343a4005 !important;
 }
 
-/*
- * Sidebar
- */
-
+/*  Sidebar */
 .sidebar {
   top: 0;
   bottom: 0;
@@ -56,38 +53,34 @@ body {
 
 [role="main"] {
   padding-top: 48px;
-  /* Space for fixed navbar */
 }
 
-/*
- * Navbar
- */
-
+/* Navbar */
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
   font-size: 1rem;
-  background-color: rgba(0, 0, 0, .25);
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+  background-color: rgba(0, 0, 0, 0.25);
+  box-shadow: inset -1px 0 0 rgba(46, 14, 14, 0.25);
 }
 
 
 /* nav  angerman  */
 
-.navbarExpland{
+.navbarExpland {
   position: inherit;
   -webkit-transition: width 3s;
   transition: width 3s;
 }
 
-.navbarCollapse  {
+.navbarCollapse {
   width: 50px;
   position: inherit;
   -webkit-transition: width 3s;
   transition: width 3s
 }
 
-@media only screen and (max-width: 1798px) {
+@media only screen and (min-width: 10px) {
   .navbarExpland {
     width: 50px;
     position: inherit;
@@ -102,14 +95,16 @@ body {
     transition: width 3s
   }
 
-  .navbarCollapse .sidebar-sticky .nav .lii span  {
+  .navbarCollapse .sidebar-sticky .nav .lii span {
     display: none;
   }
+
 }
 
 
+
 /* menu vertical angerman */
-.menu-vertical{
+.menu-vertical {
   margin: 0;
   padding: 0;
 }
@@ -133,19 +128,21 @@ body {
 }
 
 .lii a:hover:not(.active) {
-  background-color: #d6dbe0!important;
+  background-color: #d6dbe0 !important;
 }
-.btn-activo{
-  background-color:#1e7d34 ;
+
+.btn-activo {
+  background-color: #1e7d34;
   color: white !important;
 }
 
 
 /* mis correcciones a bootstrap 4  */
-.card{
+.card {
   border-radius: 0rem;
 }
-.dropdown-menu{
+
+.dropdown-menu {
   border-radius: .0rem;
 }
 
@@ -170,10 +167,11 @@ legend {
   border: 1px solid #dfdfdf;
   box-shadow: 2px 3px 4px 0px #e7e7e7;
 }
+
 /* nav-tabs */
 .nav-tabs {
   border-bottom: 1px solid #dee2e6;
-  background-color: rgba(0,0,0,.03);
+  background-color: rgba(0, 0, 0, .03);
   padding-top: 6px;
   padding-left: 8px;
 }
@@ -203,36 +201,39 @@ legend {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 0rem;
 }
- /* SCROLL ANG95 */
+
+/* SCROLL ANG95 */
 
 body::-webkit-scrollbar {
-   width: 0.5em;
+  width: 0.5em;
 }
 
-
 body::-webkit-scrollbar-thumb {
-   background-color: rgb(145, 148, 145);
-   outline: 2px solid rgb(255, 0, 0);
+  background-color: rgb(145, 148, 145);
+  outline: 2px solid rgb(255, 0, 0);
 }
 
 /* SCROLL NAV VERTICAL ----------------------------------------------- */
 .sidebar-sticky::-webkit-scrollbar {
   width: 0.5em;
 }
+
 .sidebar-sticky::-webkit-scrollbar-thumb {
   background-color: rgb(195, 202, 190);
   outline: 5px solid rgb(255, 0, 0);
 }
 
 /* navs bs4 */
-.nav-item{
+.nav-item {
   cursor: pointer;
 }
+
 /* readonly clases de bootstrap 4 */
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled,
+.form-control[readonly] {
   background-color: #f8f9fa;
   opacity: 1;
 }

@@ -25,18 +25,26 @@ class AppAng extends Component {
         this.BtnActivo = this.BtnActivo.bind(this);
     }
 
+    
     ButtonToogle(){
         this.setState({
             navbarExpland: !this.state.navbarExpland
         });
-    };
-    
+        localStorage.setItem('opcionBtnToogle', this.state.navbarExpland);
+
+        // console.log('>>',JSON.parse( localStorage.getItem('opcionBtnToogle')));
+        // console.log('>><<',this.state.navbarExpland);
+    }
+   
+
     BtnActivo(){
         this.setState({
             btnActivo: !this.state.btnActivo
         });
         // debugger;
     };
+
+
 
     render() {
         return (
@@ -58,7 +66,7 @@ class AppAng extends Component {
 
                     <div className="container-fluid">
                         <div className="row">
-                            <nav className={this.state.navbarExpland ? 'col-md-2 navbarExpland d-none d-md-block bg-light sidebar': "navbarCollapse bg-light sidebar"}>
+                            <nav className={JSON.parse(localStorage.getItem('opcionBtnToogle')) ? 'col-md-2 navbarExpland d-none d-md-block bg-light sidebar': "navbarCollapse bg-light sidebar"}>
                                 <div className="sidebar-sticky">
                                     <ul className="nav flex-column ull">
                                         <li className="lii border-top">
@@ -100,7 +108,7 @@ class AppAng extends Component {
                                         </li>
                                         
                                         <li className="lii">
-                                            <a className="nav-link"  href="#about" id="ADMIM"><FaSuperscript /><span> ADMINISTRACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
+                                            <a className="nav-link" href="#about" id="ADMIM"><FaSuperscript /><span> ADMINISTRACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
                                                 <UncontrolledCollapse toggler="#ADMIM">
                                                     <ul className="nav flex-column ">
                                                         <li className="lii">
