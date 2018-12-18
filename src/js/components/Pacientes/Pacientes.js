@@ -7,16 +7,19 @@ class Pacientes extends Component {
   constructor() {
     super();
 
-    this.toggle = this.toggle.bind(this);
-    this.buscar = this.buscar.bind(this)
-    this.handleChange = this.handleChange.bind(this);
-
     this.state = {
       activeTab: '1',
       dataExamenes:[],
       inputBuscarUsuario:'',
       DataUsuario:[]
     };
+
+    
+    this.toggle = this.toggle.bind(this);
+    this.buscar = this.buscar.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.convertirFecha = this.convertirFecha.bind(this);
+
   }
 
   componentWillMount(){
@@ -41,25 +44,49 @@ class Pacientes extends Component {
   }
 
   buscar(event){
+    event.preventDefault();
+
     axios.get(`http://localhost:3000/usuarios/${this.state.inputBuscarUsuario}`)
     .then((res)=>{
-       console.log(res.data);
+      //  console.log(res.data);
        this.setState({
-        DataUsuario: res.data
+        DataUsuario: res.data[0]
        })
+
+       console.log('datausuario del state', this.state.DataUsuario);
+       
     })
     .catch((err)=>{
-      console.log('algo salió mal en realizar el reequest');
+      console.log('algo salió mal en realizar el reequest', err);
     });
-    event.preventDefault();
   }
 
   handleChange(event) {
     this.setState({inputBuscarUsuario: event.target.value});
   }
 
+  convertirFecha(fecha){
+    var fechar = fecha;
+    
+    var date = new Date(fechar);
+    var year = date.getFullYear();
+    var month = date.getMonth()+1;
+    var dt = date.getDate();
+
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+    console.log(year+'-' + month + '-'+dt);
+
+    return ( dt +'-'+ month +'-'+ year);
+
+  }
+
   render() {
-    const { apellidos, dni, fnacimiento, nombre, sexo } = this.state.DataUsuario
+    const { apellidos, dni, fnacimiento, nombre, sexo } = this.state.DataUsuario;
     return (
       <div>
         <Card>
@@ -74,77 +101,79 @@ class Pacientes extends Component {
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
                     <form onSubmit={this.buscar}>
                       <div className ="input-group  input-group-sm mb-3">
-                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="EL DNI DEL PACIENTE" value={this.state.inputBuscarUsuario} onChange={this.handleChange} />
+                        <input type="text" className="form-control" placeholder="EL DNI DEL PACIENTE" value={this.state.inputBuscarUsuario} onChange={this.handleChange} />
                         <div className ="input-group-append">
                           <button className ="input-group-text btn" type="submit">BUSCAR</button>
                         </div>
                       </div>
                     </form>
                     <hr/>
-
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">N° DNI</span>
-                      </div>
-                      <label className="form-control mr-2">{dni}</label>
-
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">HCL</span>
-                      </div>
-                      <label className="form-control"></label>
-                    </div>
-
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">F. DE NACIEMIENTO</span>
-                      </div>
-                      <label className="form-control mr-2">{fnacimiento}</label>
-
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">EDAD</span>
-                      </div>
-                      <label className="form-control">{fnacimiento}</label>
-                    </div>
-
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">NOMBRE</span>
-                      </div>
-                      <label className="form-control">{nombre}</label>
-                    </div>
                     
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">APELLIDOS</span>
-                      </div>
-                      <label className="form-control">{apellidos}</label>
-                    </div>
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">N° DNI</span>
+                        </div>
+                        <label className="form-control mr-2">{dni}</label>
 
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">SEXO</span>
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">HCL</span>
+                        </div>
+                        <label className="form-control"></label>
                       </div>
-                      <label className="form-control mr-2">{sexo}</label>
 
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">SEXO</span>
-                      </div>
-                      <label className="form-control"></label>
-                    </div>
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">F. DE NACIEMIENTO</span>
+                        </div>
+                        <label className="form-control mr-2">{this.convertirFecha(fnacimiento)}</label>
 
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">DNI</span>
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">EDAD</span>
+                        </div>
+                        <label className="form-control">{this.convertirFecha(fnacimiento)}</label>
                       </div>
-                      <label className="form-control"></label>
-                    </div>
 
-                    <div className="input-group input-group-sm mb-2">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">DNI</span>
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">NOMBRE</span>
+                        </div>
+                        <label className="form-control">{nombre}</label>
                       </div>
-                      <label className="form-control"></label>
-                    </div>
+                      
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">APELLIDOS</span>
+                        </div>
+                        <label className="form-control">{apellidos}</label>
+                        
+                      </div>
+
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">SEXO</span>
+                        </div>
+                        <label className="form-control mr-2">{sexo}</label>
+
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">SEXO</span>
+                        </div>
+                        <label className="form-control"></label>
+                      </div>
+
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">DNI</span>
+                        </div>
+                        <label className="form-control"></label>
+                      </div>
+
+                      <div className="input-group input-group-sm mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">DNI</span>
+                        </div>
+                        <label className="form-control"></label>
+                      </div>
+
                   </fieldset> 
                 </Col>
                 <Col sm="6">
