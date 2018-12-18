@@ -3,15 +3,19 @@ import axios from 'axios';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardHeader, CardText, CardBody, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 
-class MetradosDiarios extends Component {
+class Pacientes extends Component {
   constructor() {
     super();
 
     this.toggle = this.toggle.bind(this);
+    this.buscar = this.buscar.bind(this)
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       activeTab: '1',
-      dataExamenes:[]
+      dataExamenes:[],
+      inputBuscarUsuario:'',
+      DataUsuario:[]
     };
   }
 
@@ -23,7 +27,7 @@ class MetradosDiarios extends Component {
             dataExamenes: res.data
           })
       })
-      .catch(function (error) {
+      .catch((error)=> {
           console.log('ocurrió un error al realizar la petición GET',error);
       });
   }
@@ -35,7 +39,27 @@ class MetradosDiarios extends Component {
       });
     }
   }
+
+  buscar(event){
+    axios.get(`http://localhost:3000/usuarios/${this.state.inputBuscarUsuario}`)
+    .then((res)=>{
+       console.log(res.data);
+       this.setState({
+        DataUsuario: res.data
+       })
+    })
+    .catch((err)=>{
+      console.log('algo salió mal en realizar el reequest');
+    });
+    event.preventDefault();
+  }
+
+  handleChange(event) {
+    this.setState({inputBuscarUsuario: event.target.value});
+  }
+
   render() {
+    const { apellidos, dni, fnacimiento, nombre, sexo } = this.state.DataUsuario
     return (
       <div>
         <Card>
@@ -48,7 +72,79 @@ class MetradosDiarios extends Component {
                 <Col sm="6">
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
-                    <input type="text" className="form-control-sm form-control" />
+                    <form onSubmit={this.buscar}>
+                      <div className ="input-group  input-group-sm mb-3">
+                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="EL DNI DEL PACIENTE" value={this.state.inputBuscarUsuario} onChange={this.handleChange} />
+                        <div className ="input-group-append">
+                          <button className ="input-group-text btn" type="submit">BUSCAR</button>
+                        </div>
+                      </div>
+                    </form>
+                    <hr/>
+
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">N° DNI</span>
+                      </div>
+                      <label className="form-control mr-2">{dni}</label>
+
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">HCL</span>
+                      </div>
+                      <label className="form-control"></label>
+                    </div>
+
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">F. DE NACIEMIENTO</span>
+                      </div>
+                      <label className="form-control mr-2">{fnacimiento}</label>
+
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">EDAD</span>
+                      </div>
+                      <label className="form-control">{fnacimiento}</label>
+                    </div>
+
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">NOMBRE</span>
+                      </div>
+                      <label className="form-control">{nombre}</label>
+                    </div>
+                    
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">APELLIDOS</span>
+                      </div>
+                      <label className="form-control">{apellidos}</label>
+                    </div>
+
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">SEXO</span>
+                      </div>
+                      <label className="form-control mr-2">{sexo}</label>
+
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">SEXO</span>
+                      </div>
+                      <label className="form-control"></label>
+                    </div>
+
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">DNI</span>
+                      </div>
+                      <label className="form-control"></label>
+                    </div>
+
+                    <div className="input-group input-group-sm mb-2">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">DNI</span>
+                      </div>
+                      <label className="form-control"></label>
+                    </div>
                   </fieldset> 
                 </Col>
                 <Col sm="6">
@@ -122,4 +218,4 @@ class MetradosDiarios extends Component {
     );
   }
 }
-export default MetradosDiarios;
+export default Pacientes;

@@ -8,7 +8,7 @@ import UserNav from './Otros/UserNav';
 import NotificacionNav from './Otros/NotificacionNav';
 import MensajeNav from "./Otros/MensajesNav";
 import Inicio from './Inicio/Inicio';
-import MetradosDiarios from './Pacientes/pacientes';
+import Pacientes from './Pacientes/pacientes';
 import Ingreso from './Otros/Ingreso';
 import Profesiones from './Administracion/Profesiones'    
 import Login from './Login/Login'    
@@ -142,7 +142,7 @@ class AppAng extends Component {
                                 <div className="px-1">
                                     <Route exact path="/" component={Login} />
                                     <Route path ="/Inicio" component={Inicio} />
-                                    <Route path="/NuevaAtencion" component={MetradosDiarios} />
+                                    <Route path="/NuevaAtencion" component={Pacientes} />
                                     <Route path="/Profesiones" component={Profesiones} />
                                     <Route path="/Ingreso" component={Ingreso} />
                                     <Route path="/topics" component={Topics} />

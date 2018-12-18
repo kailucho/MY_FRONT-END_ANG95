@@ -231,3 +231,8 @@ body::-webkit-scrollbar-thumb {
 .nav-item{
   cursor: pointer;
 }
+/* readonly clases de bootstrap 4 */
+.form-control:disabled, .form-control[readonly] {
+  background-color: #f8f9fa;
+  opacity: 1;
+}
