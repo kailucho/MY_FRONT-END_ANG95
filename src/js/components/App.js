@@ -23,6 +23,8 @@ class AppAng extends Component {
 
         this.ButtonToogle = this.ButtonToogle.bind(this);
         this.BtnActivo = this.BtnActivo.bind(this);
+        this.YearActual = this.YearActual.bind(this);
+        
     }
 
     
@@ -44,6 +46,14 @@ class AppAng extends Component {
         // debugger;
     };
 
+    YearActual(){
+        var fecha = new Date();
+        
+        var ano = fecha.getFullYear();
+        var month = fecha.getMonth()+1;
+        var dt = fecha.getDate();
+        return dt+ '-'+ month +'-'+ ano
+    }
 
 
     render() {
@@ -133,7 +143,7 @@ class AppAng extends Component {
                             <main role="main" className="col ml-sm-auto col-lg px-2">
                                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                     <h6 className="">
-                                        BIENVENIDO HOY ES : {Date()}
+                                        BIENVENIDO HOY ES : {this.YearActual()}
                                     </h6>
                                     <div className="btn-toolbar mb-2 mb-md-0">
                                         <div className="btn-group mr-2">

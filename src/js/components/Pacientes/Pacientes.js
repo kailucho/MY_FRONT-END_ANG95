@@ -18,7 +18,7 @@ class Pacientes extends Component {
     this.toggle = this.toggle.bind(this);
     this.buscar = this.buscar.bind(this)
     this.handleChange = this.handleChange.bind(this);
-    this.convertirFecha = this.convertirFecha.bind(this);
+    this.CalculEdad = this.CalculEdad.bind(this);
 
   }
 
@@ -65,10 +65,13 @@ class Pacientes extends Component {
     this.setState({inputBuscarUsuario: event.target.value});
   }
 
-  convertirFecha(fecha){
-    var fechar = fecha;
-    
-    var date = new Date(fechar);
+  CalculEdad(fn){
+    var date = new Date(fn);
+
+    var fecha = new Date();
+    var anoActual = fecha.getFullYear();
+    var mesActual = fecha.getMonth()+1;
+
     var year = date.getFullYear();
     var month = date.getMonth()+1;
     var dt = date.getDate();
@@ -79,12 +82,28 @@ class Pacientes extends Component {
     if (month < 10) {
       month = '0' + month;
     }
-    console.log(year+'-' + month + '-'+dt);
+    var edad = anoActual - year
+    console.log('fecha normal', dt+'-' + month + '-'+ year + 'edad>', edad+ 'MESES>', month);
 
-    return ( dt +'-'+ month +'-'+ year);
+    return ( 
+      <div className="input-group input-group-sm mb-2">
+        <div className="input-group-prepend">
+          <span className="input-group-text">F. NACIEMIENTO</span>
+        </div>
+        <label className="form-control mr-2">{ dt + '-' + month + '-'+ year }</label>
 
+        <div className="input-group-prepend">
+          <span className="input-group-text">EDAD</span>
+        </div>
+        <label className="form-control">{ edad }</label>
+        
+        <div className="input-group-prepend">
+          <span className="input-group-text">MESES</span>
+        </div>
+        <label className="form-control">{ mesActual - month }</label>
+      </div>
+    );
   }
-
   render() {
     const { apellidos, dni, fnacimiento, nombre, sexo } = this.state.DataUsuario;
     return (
@@ -96,12 +115,12 @@ class Pacientes extends Component {
           <CardBody>
             <Card className="p-2 mb-2">
               <Row className="pb-2">
-                <Col sm="6">
+              <Col sm="8">
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
                     <form onSubmit={this.buscar}>
                       <div className ="input-group  input-group-sm mb-3">
-                        <input type="text" className="form-control" placeholder="EL DNI DEL PACIENTE" value={this.state.inputBuscarUsuario} onChange={this.handleChange} />
+                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="Ingrese el dni" value={this.state.inputBuscarUsuario} onChange={this.handleChange} />
                         <div className ="input-group-append">
                           <button className ="input-group-text btn" type="submit">BUSCAR</button>
                         </div>
@@ -121,17 +140,9 @@ class Pacientes extends Component {
                         <label className="form-control"></label>
                       </div>
 
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">F. DE NACIEMIENTO</span>
-                        </div>
-                        <label className="form-control mr-2">{this.convertirFecha(fnacimiento)}</label>
 
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">EDAD</span>
-                        </div>
-                        <label className="form-control">{this.convertirFecha(fnacimiento)}</label>
-                      </div>
+                      {this.CalculEdad(fnacimiento)}
+                      
 
                       <div className="input-group input-group-sm mb-2">
                         <div className="input-group-prepend">
@@ -176,7 +187,7 @@ class Pacientes extends Component {
 
                   </fieldset> 
                 </Col>
-                <Col sm="6">
+                <Col sm="4">
                   <fieldset>
                     <legend><b>REFERIR AL COSULTORIO:</b></legend>
                     <select className="form-control-sm form-control">
