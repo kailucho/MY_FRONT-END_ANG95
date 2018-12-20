@@ -25,7 +25,7 @@ class Pacientes extends Component {
   componentWillMount(){
     axios.get('http://localhost:3000/examenes')
       .then((res) => {
-          // console.log('rest',res.data);
+          console.log('rest',res.data);
           this.setState({
             dataExamenes: res.data
           })
@@ -83,7 +83,7 @@ class Pacientes extends Component {
       month = '0' + month;
     }
     var edad = anoActual - year
-    console.log('fecha normal', dt+'-' + month + '-'+ year + 'edad>', edad+ 'MESES>', month);
+    // console.log('fecha normal', dt+'-' + month + '-'+ year + 'edad>', edad+ 'MESES>', month);
 
     return ( 
       <div className="input-group input-group-sm mb-2">
@@ -127,7 +127,8 @@ class Pacientes extends Component {
                       </div>
                     </form>
                     <hr/>
-                    
+                    {fnacimiento === undefined ? "":
+                    <div>
                       <div className="input-group input-group-sm mb-2">
                         <div className="input-group-prepend">
                           <span className="input-group-text">N° DNI</span>
@@ -170,21 +171,7 @@ class Pacientes extends Component {
                         </div>
                         <label className="form-control"></label>
                       </div>
-
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">DNI</span>
-                        </div>
-                        <label className="form-control"></label>
-                      </div>
-
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">DNI</span>
-                        </div>
-                        <label className="form-control"></label>
-                      </div>
-
+                    </div>}
                   </fieldset> 
                 </Col>
                 <Col sm="4">
