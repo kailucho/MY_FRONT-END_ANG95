@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import ReactTable from 'react-table'
 import { FaSave, FaTimes, FaPlus, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Button, Modal, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
+import "react-table/react-table.css";
 
 class Profesiones extends Component {
     constructor() {
@@ -15,6 +17,7 @@ class Profesiones extends Component {
         this.toggle = this.toggle.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.Prueba = this.Prueba.bind(this);
         
     }
     
@@ -22,7 +25,7 @@ class Profesiones extends Component {
         // OBTIENE DATA DEL SERVIDOR-------------------------------------------------------
         axios.get('http://localhost:3000/profesiones')
         .then((res) => {
-            // console.log('rest',res.data);
+            console.log('rest',res.data);
             this.setState({
                 data: res.data
             })
@@ -63,8 +66,37 @@ class Profesiones extends Component {
         event.preventDefault();
         
     }
+
+    Prueba(){
+        alert('hola tu mensaje');
+        console.log('hola tu mensaje');
+        
+    }
+
     render() {
         const { data } = this.state;
+        const columns = [
+            {
+                Header:  props => <b>N°</b>,
+                accessor: '_id' // String-based value accessors!
+            }, 
+            {
+                Header:  props => <b>NOMBRE DE PROFESION</b>,
+                accessor: 'nombProfesion',
+            }, 
+           
+            {
+                Header: props => <b>OPCIONES</b>, // Custom header components!
+                accessor: '_id',
+                Cell: row => (
+                    <span>
+                        <button className="btn btn-sm btn-outline-success p-1" onClick={this.Prueba} ><FaEdit /></button>
+                        <button className="btn btn-sm btn-outline-danger ml-1 p-1"  onClick={this.Prueba} ><FaTrashAlt /></button>
+                        <button className="btn btn-sm btn-outline-dark"> {row.value}</button>
+                    </span>
+                )
+            }
+        ]
         return (
             <div>
                 <div className="card">
@@ -73,31 +105,16 @@ class Profesiones extends Component {
                         <button className="btn btn-sm float-right m-0" onClick={this.toggle}><FaPlus /> Nuevo</button>
                     </div>
                     <div className="card-body p-0">
-                        <table className="table table-hover m-0">
-                            <thead>
-                                <tr>
-                                    <th> N°</th>
-                                    <th> NOMBRE DE PROFESION</th>
-                                    <th> OPCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((profesion, i)=>
-
-                                    <tr key={i}>
-                                        <td>{ i+1 } </td>
-                                        <td> {profesion.nombProfesion}</td>
-                                        <td> 
-                                            <button className="btn btn-sm btn-outline-success p-1"><FaEdit /></button>
-                                            <button className="btn btn-sm btn-outline-danger ml-1 p-1"><FaTrashAlt /></button>
-                                        </td>
-                                    </tr>
-                                
-                                )}                                
-                            </tbody>
-                        </table>
+                        <ReactTable
+                            data={data}
+                            columns={columns}
+                            defaultPageSize={10}
+                            className="-striped -highlight"
+                        /> 
                     </div>
                 </div>
+
+               
                {/* MODAL PROFESIONES */}
                <Modal isOpen={this.state.modal} fade={false} toggle={this.toggle} className={this.props.className} size="sm">
                     <Form onSubmit={this.handleSubmit}>

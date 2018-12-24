@@ -11,14 +11,19 @@ class Pacientes extends Component {
       activeTab: '1',
       dataExamenes:[],
       inputBuscarUsuario:'',
-      DataUsuario:[]
+      DataUsuario:[],
+      pushPrueba:[],
+      DataSend:[],
+      StatePushCheckBox:[]
     };
 
     
     this.toggle = this.toggle.bind(this);
-    this.buscar = this.buscar.bind(this)
-    this.handleChange = this.handleChange.bind(this);
+    this.FormBuscar = this.FormBuscar.bind(this)
+    this.inputBuscarUsuario = this.inputBuscarUsuario.bind(this);
     this.CalculEdad = this.CalculEdad.bind(this);
+    this.FrmGuardarAtencion = this.FrmGuardarAtencion.bind(this);
+    this.CapturaImputs = this.CapturaImputs.bind(this)
 
   }
 
@@ -43,7 +48,7 @@ class Pacientes extends Component {
     }
   }
 
-  buscar(event){
+  FormBuscar(event){
     event.preventDefault();
 
     axios.get(`http://localhost:3000/usuarios/${this.state.inputBuscarUsuario}`)
@@ -51,30 +56,26 @@ class Pacientes extends Component {
       //  console.log(res.data);
        this.setState({
         DataUsuario: res.data[0]
-       })
-
-       console.log('datausuario del state', this.state.DataUsuario);
-       
+       })       
     })
     .catch((err)=>{
       console.log('algo salió mal en realizar el reequest', err);
     });
   }
 
-  handleChange(event) {
+  inputBuscarUsuario(event) {
     this.setState({inputBuscarUsuario: event.target.value});
   }
 
   CalculEdad(fn){
-    var date = new Date(fn);
-
     var fecha = new Date();
     var anoActual = fecha.getFullYear();
     var mesActual = fecha.getMonth()+1;
-
+    
+    var date = new Date(fn);
     var year = date.getFullYear();
     var month = date.getMonth()+1;
-    var dt = date.getDate();
+    var dt = date.getDate()+1;
 
     if (dt < 10) {
       dt = '0' + dt;
@@ -104,8 +105,58 @@ class Pacientes extends Component {
       </div>
     );
   }
+
+  FrmGuardarAtencion(e,i){
+    e.preventDefault()
+    console.log(this.state.DataSend);
+    
+    alert('>>'+i+ JSON.stringify(this.state.DataSend))
+    
+  }
+
+  CapturaImputs(e, i, ind1, inde, unidadMedida, precio ) {
+    console.log('uno>',i,' dos>',ind1 ,' tres>',inde);
+    
+    // accecedo al state principal
+    var DataAEnviar = []
+    var nomb_examen = this.state.dataExamenes[i].nomb_examen
+    console.log('nomb_examen>', nomb_examen);
+
+    const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
+    console.log('grupo1>', nomb_examenGrupo1);
+
+    
+    var content = {
+      [e.target.name]: e.target.value,
+      unidadMedida: unidadMedida,
+      precio: precio,
+      resultado:""
+    }
+    
+    this.state.StatePushCheckBox.push(content)
+
+    // console.log('content>', this.state.StatePushCheckBox);
+    
+    DataAEnviar.push({
+      nomb_examen,
+      "grupo1": [
+        {
+          nomb_examenGrupo1,
+            grupo2:this.state.StatePushCheckBox
+        }
+      ]
+    })
+
+    // console.log('c2ACheckBoxt>', ACheckBoxt);
+    // console.log('DataAEnviar>', DataAEnviar);
+
+    this.setState({
+       DataSend:DataAEnviar
+    })
+  }
+
   render() {
-    const { apellidos, dni, fnacimiento, nombre, sexo } = this.state.DataUsuario;
+    const { hcl, apellidos, dni, fnacimiento, nombre, sexo } = this.state.DataUsuario;
     return (
       <div>
         <Card>
@@ -118,9 +169,9 @@ class Pacientes extends Component {
               <Col sm="8">
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
-                    <form onSubmit={this.buscar}>
+                    <form onSubmit={this.FormBuscar}>
                       <div className ="input-group  input-group-sm mb-3">
-                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="Ingrese el dni" value={this.state.inputBuscarUsuario} onChange={this.handleChange} />
+                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="Ingrese el dni" value={this.state.inputBuscarUsuario} onChange={this.inputBuscarUsuario} />
                         <div className ="input-group-append">
                           <button className ="input-group-text btn" type="submit">BUSCAR</button>
                         </div>
@@ -138,7 +189,7 @@ class Pacientes extends Component {
                         <div className="input-group-prepend">
                           <span className="input-group-text">HCL</span>
                         </div>
-                        <label className="form-control"></label>
+                        <label className="form-control">{ hcl }</label>
                       </div>
 
 
@@ -188,57 +239,57 @@ class Pacientes extends Component {
                 </Col>
               </Row>
             </Card>
-            <Nav tabs className="border border-button-0">
-              {this.state.dataExamenes.map((examen , i)=>
-                <NavItem key={ i }>
-                  <NavLink
-                    className={classnames({ active: this.state.activeTab === (i+1).toString() })}
-                    onClick={() => { this.toggle((i+1).toString()); }}
-                  >
-                    {examen.nomb_examen}
-                  </NavLink>
-                </NavItem>
-              )}
-            </Nav>
+            <fieldset>
+              <legend><b>REGISTRAR EXÁMEN DE LABORATORIO </b></legend>
+              <Nav tabs className="border border-button-0">
+                {this.state.dataExamenes.map((examen , i)=>
+                  <NavItem key={ i }>
+                    <NavLink
+                      className={classnames({ active: this.state.activeTab === (i+1).toString() })}
+                      onClick={() => { this.toggle((i+1).toString()); }}
+                    >
+                      {examen.nomb_examen}
+                    </NavLink>
+                  </NavItem>
+                )}
+              </Nav>
+                  
+              <TabContent activeTab={this.state.activeTab} className="border border-top-0 p-2 bg-white">
 
-            <TabContent activeTab={this.state.activeTab} className="border border-top-0 p-2 bg-white">
+                {this.state.dataExamenes.map((examen , i)=>
+                
+                  <TabPane tabId={(i+1).toString()} key={ i }>
+                    <form onSubmit={(e)=> this.FrmGuardarAtencion(e, i)} className="form-group">
 
-              {this.state.dataExamenes.map((examen , i)=>
-              
-                <TabPane tabId={(i+1).toString()} key={ i }>
-                  <Row>
-                    {examen.grupo1.map((subExam , ind ) =>
+                      <Row>
+                        {examen.grupo1.map((subExam , ind1 ) =>
 
-                      <Col sm="3" key={ ind }>
-                        <fieldset>
-                          <legend>{subExam.nomb_examenGrupo1} </legend>
-                    
-                              <form action="">
-                                <div className="d-flex flex-column-reverse">
-                                  {subExam.grupo2.map((subExam2, inde)=>
+                          <Col sm="3" key={ ind1 }>
+                              <fieldset>
+                                <legend>{subExam.nomb_examenGrupo1} </legend>
+                                  <div className="d-flex flex-column-reverse">
+                                    {subExam.grupo2.map((subExam2, inde)=>
 
-                                    <label key={ inde }>
-                                      <input type="checkbox" name={subExam2.nombExamen2} value="opcion1" /> { ' ' }
-                                        {subExam2.nombExamen2}                              
-                                    </label>
-                                  )}
+                                      <label key={ inde }>
+                                        <input type="checkbox" name="nombExamen2" value={subExam2.nombExamen2} onClick={(e) => this.CapturaImputs(e, i, ind1, inde, subExam2.unidadMedida, subExam2.precio) } /> { ' ' }
+                                          {subExam2.nombExamen2}                          
+                                      </label>
+                                    )}
+                                  </div>                                
+                              </fieldset>
+                          </Col>
+                        )}
+                        
+                      </Row> 
+                        <button className="btn btn-xl btn-outline-primary pt-0 pb-0  float-right" type="submit">
+                          Guardar
+                        </button>
+                    </form>
+                  </TabPane>
+                )}
 
-                                </div>
-                                <div className="border-top p-1 clearfix">
-                                  <button className="btn btn-sm btn-outline-primary pt-0 pb-0  float-right">
-                                    Guardar
-                                  </button>
-                                </div>
-                              </form>
-                              
-                        </fieldset>
-                      </Col>
-                    )}
-                  </Row>
-                </TabPane>
-              )}
-
-            </TabContent>
+              </TabContent>
+            </fieldset>
           </CardBody>
         </Card>
       </div>

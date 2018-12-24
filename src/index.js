@@ -5,4 +5,4 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
 
 const wrapper = document.getElementById("zoe");
-wrapper ? ReactDOM.render(<AppAng />, wrapper) : false;
+wrapper ? ReactDOM.render(<AppAng />, wrapper) : 'cargarndo desde el componente de react false';

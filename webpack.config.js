@@ -28,10 +28,11 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|ico)$/,
         use: [{
           loader: "file-loader",
           options: {
+            outputPath: 'images',
             limit: 4192
           }
         }]
@@ -39,12 +40,12 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "public"),
     filename: 'bundle.js',
     publicPath: '',
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'public'),
     compress: true,
     port: 9000,
     historyApiFallback: true
