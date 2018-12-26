@@ -115,44 +115,49 @@ class Pacientes extends Component {
   }
 
   CapturaImputs(e, i, ind1, inde, unidadMedida, precio ) {
-    console.log('uno>',i,' dos>',ind1 ,' tres>',inde);
+    // console.log('uno>',i,' dos>',ind1 ,' tres>',inde);
     
-    // accecedo al state principal
-    var DataAEnviar = []
-    var nomb_examen = this.state.dataExamenes[i].nomb_examen
-    console.log('nomb_examen>', nomb_examen);
-
-    const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
-    console.log('grupo1>', nomb_examenGrupo1);
-
-    
-    var content = {
-      [e.target.name]: e.target.value,
-      unidadMedida: unidadMedida,
-      precio: precio,
-      resultado:""
-    }
-    
-    this.state.StatePushCheckBox.push(content)
-
-    // console.log('content>', this.state.StatePushCheckBox);
-    
-    DataAEnviar.push({
-      nomb_examen,
-      "grupo1": [
-        {
-          nomb_examenGrupo1,
-            grupo2:this.state.StatePushCheckBox
+    if(this.state.DataSend.length === 0){
+        // accecedo al state principal
+        var DataSubmit = []
+        var nomb_examen = this.state.dataExamenes[i].nomb_examen
+        // console.log('nomb_examen>', nomb_examen);
+  
+        const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
+        // console.log('grupo1>', nomb_examenGrupo1);
+  
+        var content = {
+          [e.target.name]: e.target.value,
+          unidadMedida: unidadMedida,
+          precio: precio,
+          resultado:""
         }
-      ]
-    })
-
-    // console.log('c2ACheckBoxt>', ACheckBoxt);
-    // console.log('DataAEnviar>', DataAEnviar);
-
-    this.setState({
-       DataSend:DataAEnviar
-    })
+        
+        this.state.StatePushCheckBox.push(content)
+  
+        // console.log('content>', this.state.StatePushCheckBox);
+        
+        DataSubmit.push({
+          nomb_examen,
+          "grupo1": [
+            {
+              nomb_examenGrupo1,
+                grupo2:this.state.StatePushCheckBox
+            }
+          ]
+        })
+  
+        // console.log('c2ACheckBoxt>', ACheckBoxt);
+        // console.log('DataSubmit>', DataSubmit);
+  
+        this.setState({
+          DataSend:DataSubmit
+        })
+        console.log('DataSend>', this.state.DataSend);
+    }else{
+      console.log('DataSend>', this.state.DataSend);
+      
+    }
   }
 
   render() {
@@ -170,7 +175,22 @@ class Pacientes extends Component {
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
                     <form onSubmit={this.FormBuscar}>
+                      <div className="pb-2 ">
+                        <div className="form-check form-check-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" defaultChecked={true} />
+                          <label className="form-check-label" htmlFor="inlineRadio1">DNI</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled/>
+                          <label className="form-check-label" htmlFor="inlineRadio2">HCL</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled/>
+                          <label className="form-check-label" htmlFor="inlineRadio3">NOMBRE Y APELLIDOS</label>
+                        </div>
+                      </div>
                       <div className ="input-group  input-group-sm mb-3">
+                       
                         <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="Ingrese el dni" value={this.state.inputBuscarUsuario} onChange={this.inputBuscarUsuario} />
                         <div className ="input-group-append">
                           <button className ="input-group-text btn" type="submit">BUSCAR</button>
@@ -228,6 +248,7 @@ class Pacientes extends Component {
                 <Col sm="4">
                   <fieldset>
                     <legend><b>REFERIR AL COSULTORIO:</b></legend>
+                    {JSON.stringify(this.state.DataSend)}
                     <select className="form-control-sm form-control">
                       <option>Seleccione:</option>
                       <option>Laboratorio</option>
