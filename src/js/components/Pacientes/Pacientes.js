@@ -14,6 +14,7 @@ class Pacientes extends Component {
       DataUsuario:[],
       pushPrueba:[],
       DataSend:[],
+      DataSend2:[],
       StatePushCheckBox:[]
     };
 
@@ -115,13 +116,13 @@ class Pacientes extends Component {
   }
 
   CapturaImputs(e, i, ind1, inde, unidadMedida, precio ) {
-    // console.log('uno>',i,' dos>',ind1 ,' tres>',inde);
+    console.log('uno>',i,' dos>',ind1 ,' tres>',inde);
     
-    if(this.state.DataSend.length === 0){
+    if(i === 0){
         // accecedo al state principal
         var DataSubmit = []
         var nomb_examen = this.state.dataExamenes[i].nomb_examen
-        // console.log('nomb_examen>', nomb_examen);
+        console.log('nomb_examen>', nomb_examen);
   
         const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
         // console.log('grupo1>', nomb_examenGrupo1);
@@ -153,9 +154,43 @@ class Pacientes extends Component {
         this.setState({
           DataSend:DataSubmit
         })
-        console.log('DataSend>', this.state.DataSend);
+        console.log('DataSend0>', this.state.DataSend);
     }else{
-      console.log('DataSend>', this.state.DataSend);
+      var DataSubmit2 = []
+      var nomb_examen = this.state.dataExamenes[i].nomb_examen
+      console.log('nomb_examen>', nomb_examen);
+
+      const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
+      // console.log('grupo1>', nomb_examenGrupo1);
+
+      var content = {
+        [e.target.name]: e.target.value,
+        unidadMedida: unidadMedida,
+        precio: precio,
+        resultado:""
+      }
+      
+      this.state.StatePushCheckBox.push(content)
+
+      // console.log('content>', this.state.StatePushCheckBox);
+      
+      DataSubmit2.push({
+        nomb_examen,
+        "grupo1": [
+          {
+            nomb_examenGrupo1,
+              grupo2:this.state.StatePushCheckBox
+          }
+        ]
+      })
+
+      // console.log('c2ACheckBoxt>', ACheckBoxt);
+
+      this.setState({
+        DataSend2:DataSubmit2
+      })
+
+      console.log('DataSend1>', this.state.DataSend2);
       
     }
   }
@@ -248,7 +283,7 @@ class Pacientes extends Component {
                 <Col sm="4">
                   <fieldset>
                     <legend><b>REFERIR AL COSULTORIO:</b></legend>
-                    {JSON.stringify(this.state.DataSend)}
+                      <code>{JSON.stringify(this.state.DataSend)}</code>
                     <select className="form-control-sm form-control">
                       <option>Seleccione:</option>
                       <option>Laboratorio</option>
