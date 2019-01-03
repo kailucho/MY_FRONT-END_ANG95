@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import LoadingXD from "../../../images/loaderXS.gif"
 import { FaEnvelope } from "react-icons/fa";
 
 class MensajeNav extends Component {
@@ -26,26 +27,14 @@ class MensajeNav extends Component {
                 </Button>
                 <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggle}  >
                     <PopoverHeader>
-                        MENSAJES 
+                        <div className="d-flex small">
+                            <div className="flex-fill pr-5"><b>Mensajes</b> </div>
+                            <div className="flex-fill pr-2">más</div>
+                            <div className="flex-fill">Configuración</div>
+                        </div>
                     </PopoverHeader>
                     <PopoverBody>
-                        Ang = german apaza ninaraque
-                        Ang = german apaza ninaraque
-                        Ang = german apaza ninaraque
-                        Ang = german apaza ninaraque
-                        Ang = german apaza ninaraque
-                        <div className="border-top border-bottom bg-success">
-                                demo
-                            </div>
-                            <div className="border-top border-bottom">
-                                demo
-                            </div>
-                            <div className="border-top border-bottom">
-                                demo
-                            </div>
-                            <div className="border-top border-bottom">
-                                demo
-                            </div>
+                        <img src={LoadingXD} className="img-fluid rounded mx-auto d-block" width="20px" />                        
                     </PopoverBody>
                 </Popover>
             </div>

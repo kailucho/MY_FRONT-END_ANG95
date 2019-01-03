@@ -22,7 +22,7 @@ class UserNav extends Component {
         return (
             <div>
                 <Button id="userLogin" onClick={this.toggle}  size="sm" color="success" className="mr-1">
-                    Hola: ANGerman -D caret
+                    Hola: {sessionStorage.getItem('user')}
                 </Button>
                 <Popover placement="bottom" isOpen={this.state.popoverOpen} target="userLogin" toggle={this.toggle}  >
                     <PopoverBody>

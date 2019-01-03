@@ -18,10 +18,11 @@ class Login extends Component {
             "password": "german"
           })
           .then((res)=> {
-            console.log(res);
-            this.setState({
-                NombUser: res.data.userUsername
-            })
+            // console.log(res);
+                this.setState({
+                    NombUser: res.data.userUsername
+                })
+                sessionStorage.setItem('user', this.state.NombUser)
           })
           .catch(function (error) {
             console.log(error);
@@ -31,7 +32,7 @@ class Login extends Component {
         return (
             <div className="d-flex justify-content-center" >
                 <div className="card p-4">
-                    <h4> Bienvenido {this.state.NombUser} </h4>
+                    <h4> Bienvenido: {this.state.NombUser} </h4>
                     <Form onSubmit={this.handleSubmit} >
                         <FormGroup row>
                             <Label for="Email" sm={5} size="sm">Email</Label>
