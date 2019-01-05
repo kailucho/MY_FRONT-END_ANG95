@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
+
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardHeader, CardText, CardBody, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -12,9 +14,8 @@ class Pacientes extends Component {
       dataExamenes:[],
       inputBuscarUsuario:'',
       DataUsuario:[],
-      pushPrueba:[],
+      DataSubmit:[],
       DataSend:[],
-      DataSend2:[],
       StatePushCheckBox:[]
     };
 
@@ -31,7 +32,7 @@ class Pacientes extends Component {
   componentWillMount(){
     axios.get('http://localhost:3000/examenes')
       .then((res) => {
-          console.log('rest',res.data);
+          // console.log('rest',res.data);
           this.setState({
             dataExamenes: res.data
           })
@@ -109,90 +110,78 @@ class Pacientes extends Component {
 
   FrmGuardarAtencion(e,i){
     e.preventDefault()
-    console.log(this.state.DataSend);
+    var response = [];
+
+    var groupDeep = _.groupBy(this.state.DataSend, "nomb_examen");
+
+    Object.keys(groupDeep).forEach(deep1 => {
+
+      let grupo1 = _.map(groupDeep[deep1], x => {
+
+        var groupDeep2 = _.groupBy(this.state.DataSend, "nomb_examen");
+
+        return x["grupo1"][0]
+      });
+
+      var groupDeep3 = _.groupBy(grupo1, "nomb_examenGrupo1");
+
+      response.push({
+        nomb_examen: deep1,
+        grupo1: Object.keys(groupDeep3).map(key => ({
+
+          nomb_examenGrupo1: key,
+
+          grupo2: groupDeep3[key].map(x => x["grupo2"])
+        }))
+      })
+      response.push({
+        EstAtencion:false
+      })
+    });
+    this.setState({
+      DataSubmit:response
+    })
+    console.log('response', response);
     
-    alert('>>'+i+ JSON.stringify(this.state.DataSend))
-    
+
   }
 
   CapturaImputs(e, i, ind1, inde, unidadMedida, precio ) {
-    console.log('uno>',i,' dos>',ind1 ,' tres>',inde);
-    
-    if(i === 0){
-        // accecedo al state principal
-        var DataSubmit = []
-        var nomb_examen = this.state.dataExamenes[i].nomb_examen
-        console.log('nomb_examen>', nomb_examen);
-  
-        const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
-        // console.log('grupo1>', nomb_examenGrupo1);
-  
-        var content = {
-          [e.target.name]: e.target.value,
-          unidadMedida: unidadMedida,
-          precio: precio,
-          resultado:""
-        }
-        
-        this.state.StatePushCheckBox.push(content)
-  
-        // console.log('content>', this.state.StatePushCheckBox);
-        
-        DataSubmit.push({
-          nomb_examen,
-          "grupo1": [
-            {
-              nomb_examenGrupo1,
-                grupo2:this.state.StatePushCheckBox
-            }
-          ]
-        })
-  
-        // console.log('c2ACheckBoxt>', ACheckBoxt);
-        // console.log('DataSubmit>', DataSubmit);
-  
-        this.setState({
-          DataSend:DataSubmit
-        })
-        console.log('DataSend0>', this.state.DataSend);
-    }else{
-      var DataSubmit2 = []
+    console.log('uno>',i,' dos>',ind1 ,' tres>', inde);
+
+    var content = {
+      [e.target.name]: e.target.value,
+      unidadMedida: unidadMedida,
+      precio: precio,
+      resultado:""
+    }
+
+    // if(i === 0){
+      // accecedo al state principal
+
       var nomb_examen = this.state.dataExamenes[i].nomb_examen
-      console.log('nomb_examen>', nomb_examen);
+      // console.log('nomb_examen>', nomb_examen);
 
       const nomb_examenGrupo1 =  this.state.dataExamenes[i].grupo1[ind1].nomb_examenGrupo1
       // console.log('grupo1>', nomb_examenGrupo1);
-
-      var content = {
-        [e.target.name]: e.target.value,
-        unidadMedida: unidadMedida,
-        precio: precio,
-        resultado:""
-      }
+      console.log('>>>', this.state.dataExamenes[i].grupo1[ind1].grupo2[inde]);
       
-      this.state.StatePushCheckBox.push(content)
-
+        
+      this.state.StatePushCheckBox.push(this.state.dataExamenes[i].grupo1[ind1].grupo2[inde])
+        
       // console.log('content>', this.state.StatePushCheckBox);
-      
-      DataSubmit2.push({
+        
+      this.state.DataSend.push({
         nomb_examen,
         "grupo1": [
           {
             nomb_examenGrupo1,
-              grupo2:this.state.StatePushCheckBox
+            grupo2:this.state.dataExamenes[i].grupo1[ind1].grupo2[inde]
           }
         ]
       })
+      console.log('DataSend0>', this.state.DataSend);
 
-      // console.log('c2ACheckBoxt>', ACheckBoxt);
-
-      this.setState({
-        DataSend2:DataSubmit2
-      })
-
-      console.log('DataSend1>', this.state.DataSend2);
-      
-    }
   }
 
   render() {
@@ -209,6 +198,8 @@ class Pacientes extends Component {
               <Col sm="8">
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
+                    <pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre>
+
                     <form onSubmit={this.FormBuscar}>
                       <div className="pb-2 ">
                         <div className="form-check form-check-inline">
@@ -279,11 +270,12 @@ class Pacientes extends Component {
                       </div>
                     </div>}
                   </fieldset> 
+                  {/* <code><pre>{JSON.stringify(this.state.DataSend, null, ' ')}</pre></code> */}
+
                 </Col>
                 <Col sm="4">
                   <fieldset>
                     <legend><b>REFERIR AL COSULTORIO:</b></legend>
-                      <code>{JSON.stringify(this.state.DataSend)}</code>
                     <select className="form-control-sm form-control">
                       <option>Seleccione:</option>
                       <option>Laboratorio</option>

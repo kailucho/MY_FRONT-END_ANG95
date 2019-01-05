@@ -163,7 +163,6 @@ class AppAng extends Component {
                                     <Route path="/NuevaAtencion" component={Pacientes} />
                                     <Route path="/Profesiones" component={Profesiones} />
                                     <Route path="/Ingreso" component={Ingreso} />
-                                    <Route path="/topics" component={Topics} />
                                     {/* <br/>
                                     <ButtonParent /> */}
                                 </div>
@@ -177,52 +176,3 @@ class AppAng extends Component {
     }
 }
 export default AppAng;
-
-
-
-class ButtonParent extends Component {
-    constructor() {    
-      super();
-      this.state = {
-        condition: false
-      }
-      this.handleClick = this.handleClick.bind(this)
-    }
-
-    handleClick() {
-      this.setState({
-        condition: !this.state.condition
-      })
-    }
-
-    render() {
-      return (
-        <div>
-            <button onClick={ this.handleClick } className="btn btn-rounded btn-dark">
-                demo press 
-            </button>
-
-            <div className={ this.state.condition ? " btn button  toggled" : "btn button bg-success " }>
-                <canvas className="my-4 w-100 border m-2W" id="myChart" width="900" height="380"></canvas>
-            </div>
-        </div>
-            
-      )
-    }
-  }
-// ssssssssssssss
-
-const Home = () => (
-    <div>
-      <h2>Homesssssss</h2>
-    </div>
-  );
-  
-
-  
-  const Topics = () => (
-    <div>
-      <h2>topics como la vaina como sin nada</h2>
-      <ButtonParent/>
-    </div>
-  );
