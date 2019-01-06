@@ -8,6 +8,7 @@ class UserNav extends Component {
         super(props);
     
         this.toggle = this.toggle.bind(this);
+        this.cierraSesion = this.cierraSesion.bind(this)
         this.state = {
           popoverOpen: false
         };
@@ -17,6 +18,14 @@ class UserNav extends Component {
         this.setState({
           popoverOpen: !this.state.popoverOpen
         });
+      }
+      cierraSesion(){
+          if(confirm('estas seguro de salir?')){
+            sessionStorage.removeItem('user');
+          }else{
+              
+          }
+        
       }
     render() {
         return (
@@ -32,7 +41,7 @@ class UserNav extends Component {
                         <div className="divider"></div>
                         <label>Actualizaciones</label>
                         <div className="divider"></div>
-                        <label> <FaPowerOff color="red" className="p-0"/> Salir</label>
+                        <a href="/" onClick={this.cierraSesion}> <FaPowerOff color="red" className="p-0" /> Salir</a>
                     </PopoverBody>
                 </Popover>
             </div>

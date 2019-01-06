@@ -111,6 +111,7 @@ class Pacientes extends Component {
   FrmGuardarAtencion(e,i){
     e.preventDefault()
     var response = [];
+    var estructSubmit = []
 
     var groupDeep = _.groupBy(this.state.DataSend, "nomb_examen");
 
@@ -134,14 +135,19 @@ class Pacientes extends Component {
           grupo2: groupDeep3[key].map(x => x["grupo2"])
         }))
       })
-      response.push({
-        EstAtencion:false
-      })
+      
+      
     });
-    this.setState({
-      DataSubmit:response
+    estructSubmit.push({
+      EstAtencion:false,
+      FechaAtencion:new Date(),
+      IdPaciente:"12660",
+      Examen: response
     })
-    console.log('response', response);
+    this.setState({
+      DataSubmit:estructSubmit
+    })
+    console.log('response', estructSubmit);
     
 
   }
@@ -198,7 +204,7 @@ class Pacientes extends Component {
               <Col sm="8">
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
-                    <pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre>
+                    {/* <code><pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre></code> */}
 
                     <form onSubmit={this.FormBuscar}>
                       <div className="pb-2 ">
@@ -217,7 +223,7 @@ class Pacientes extends Component {
                       </div>
                       <div className ="input-group  input-group-sm mb-3">
                        
-                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="Ingrese el dni" value={this.state.inputBuscarUsuario} onChange={this.inputBuscarUsuario} />
+                        <input type="text" name="inputBuscarUsuario" className="form-control" placeholder="Ingrese el dni" required value={this.state.inputBuscarUsuario} onChange={this.inputBuscarUsuario} />
                         <div className ="input-group-append">
                           <button className ="input-group-text btn" type="submit">BUSCAR</button>
                         </div>

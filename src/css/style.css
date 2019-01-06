@@ -167,7 +167,7 @@ legend {
   border: 1px solid #dfdfdf;
   box-shadow: 2px 3px 4px 0px #e7e7e7;
 }
-
+/* corecccion de bootstrap 4 -_-------------------__________________________________*/
 /* nav-tabs */
 .nav-tabs {
   border-bottom: 1px solid #dee2e6;
@@ -203,6 +203,10 @@ legend {
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 0rem;
+}
+.modal-content {
+  border-radius: .0rem;
+  outline: 0;
 }
 
 /* SCROLL ANG95 */

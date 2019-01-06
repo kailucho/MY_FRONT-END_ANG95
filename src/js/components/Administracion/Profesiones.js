@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import getBaseUrl from '../Utils/ServerUrlConfig'
 import ReactTable from 'react-table'
 import { FaSave, FaTimes, FaPlus, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Button, Modal, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -23,9 +24,9 @@ class Profesiones extends Component {
     
     componentDidMount(){
         // OBTIENE DATA DEL SERVIDOR-------------------------------------------------------
-        axios.get('http://localhost:3000/profesiones')
+        axios.get(getBaseUrl+'/profesiones')
         .then((res) => {
-            console.log('rest',res.data);
+            // console.log('rest',res.data);
             this.setState({
                 data: res.data
             })
@@ -45,12 +46,11 @@ class Profesiones extends Component {
     }
     
     handleSubmit(event) {
+        event.preventDefault();
         const { InputnombProfesion } = this.state
-
         // ENVIA DATOS AL SERVIDOR-------------------------------------------------------
-        axios.post('http://localhost:3000/profesiones', {
-            nombProfesion: InputnombProfesion.toUpperCase(),
-            headers: {'Authorization': "bearer " +"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViZmI0MjlhYmFmOWMyMTQzNDAzZGY4NiIsImlhdCI6MTU0NDUzODAxMCwiZXhwIjoxNTQ0NjI0NDEwfQ.qr5iDZpodVYHhmHy9hgJBGtGbmIRSQOwCUlP4MKuKBg"}
+        axios.post(getBaseUrl+'/profesiones', {
+            nombProfesion: InputnombProfesion.toUpperCase()
           })
           .then((res)=> {
             alert(`PERFECT!!!`, res)         
@@ -63,13 +63,12 @@ class Profesiones extends Component {
           });
 
         console.log('data>', InputnombProfesion);
-        event.preventDefault();
         
     }
 
     Prueba(){
-        alert('hola tu mensaje');
-        console.log('hola tu mensaje');
+        alert('hola tu mensaje'+ sessionStorage.getItem('Authorization'))
+        console.log('hola tu mensaje', sessionStorage.getItem('Authorization'));
         
     }
 

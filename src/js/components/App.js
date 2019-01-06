@@ -101,23 +101,6 @@ class AppAng extends Component {
                                         </li>
 
                                         <li className="lii">
-                                            <a className="nav-link"  href="#about" id="CONFIG"><FaPeopleCarry /><span> CONFIGURACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
-                                                <UncontrolledCollapse toggler="#CONFIG">
-                                                    <ul className="nav flex-column ">
-                                                        <li className="lii">
-                                                            <Link to="NuevaAtencion" className="nav-link"><FaLinode /> Diarios</Link>
-                                                        </li>
-                                                        <li className="lii">
-                                                            <a className="nav-link" href="#about">sub--</a>
-                                                        </li>
-                                                        <li className="lii">
-                                                            <a className="nav-link" href="#about">sub---</a>
-                                                        </li>
-                                                    </ul>
-                                                </UncontrolledCollapse>
-                                        </li>
-                                        
-                                        <li className="lii">
                                             <a className="nav-link" href="#about" id="ADMIM"><FaSuperscript /><span> ADMINISTRACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
                                                 <UncontrolledCollapse toggler="#ADMIM">
                                                     <ul className="nav flex-column ">
@@ -132,6 +115,23 @@ class AppAng extends Component {
                                                         </li>
                                                         <li className="lii">
                                                             <Link to="Profesiones" className="nav-link pl-4">Profesiones</Link>
+                                                        </li>
+                                                    </ul>
+                                                </UncontrolledCollapse>
+                                        </li>
+                                        
+                                        <li className="lii">
+                                            <a className="nav-link"  href="#about" id="CONFIG"><FaPeopleCarry /><span> CONFIGURACIÓN <div className="float-right"><FaAngleRight /></div> </span> </a>
+                                                <UncontrolledCollapse toggler="#CONFIG">
+                                                    <ul className="nav flex-column ">
+                                                        <li className="lii">
+                                                            <Link to="NuevaAtencion" className="nav-link"><FaLinode /> Diarios</Link>
+                                                        </li>
+                                                        <li className="lii">
+                                                            <a className="nav-link" href="#about">sub--</a>
+                                                        </li>
+                                                        <li className="lii">
+                                                            <a className="nav-link" href="#about">sub---</a>
                                                         </li>
                                                     </ul>
                                                 </UncontrolledCollapse>
