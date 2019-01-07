@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import getBaseUrl from '../Utils/ServerUrlConfig'
+import {UrlServer} from '../Utils/ServerUrlConfig'
 import ReactTable from 'react-table'
 import { FaSave, FaTimes, FaPlus, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Button, Modal, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -18,13 +18,14 @@ class Profesiones extends Component {
         this.toggle = this.toggle.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.Prueba = this.Prueba.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         
     }
     
     componentDidMount(){
         // OBTIENE DATA DEL SERVIDOR-------------------------------------------------------
-        axios.get(getBaseUrl+'/profesiones')
+        axios.get(`${UrlServer}/profesiones`)
         .then((res) => {
             // console.log('rest',res.data);
             this.setState({
@@ -44,12 +45,13 @@ class Profesiones extends Component {
     handleChange(event) {
         this.setState({InputnombProfesion: event.target.value});
     }
-    
+
     handleSubmit(event) {
-        event.preventDefault();
+        event.preventDefault();        
         const { InputnombProfesion } = this.state
+        
         // ENVIA DATOS AL SERVIDOR-------------------------------------------------------
-        axios.post(getBaseUrl+'/profesiones', {
+        axios.post(`${UrlServer}/profesiones`, {
             nombProfesion: InputnombProfesion.toUpperCase()
           })
           .then((res)=> {
@@ -66,19 +68,29 @@ class Profesiones extends Component {
         
     }
 
-    Prueba(){
-        alert('hola tu mensaje'+ sessionStorage.getItem('Authorization'))
-        console.log('hola tu mensaje', sessionStorage.getItem('Authorization'));
+    handleDelete(e, id){
+        e.preventDefault()
+        if(confirm('Estas seguro de eliminar la prefesón?')){
+            console.log('hola tu mensaje', );
+            axios.delete(`${UrlServer}/profesiones/${id}`,{
+
+            })
+            .then((res)=>{
+                console.log(res);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+        }
+    }
+    handleUpdate(){
+        alert('¿Estas seguro de actualizar la profesión?');
         
     }
 
     render() {
         const { data } = this.state;
         const columns = [
-            {
-                Header:  props => <b>N°</b>,
-                accessor: '_id' // String-based value accessors!
-            }, 
             {
                 Header:  props => <b>NOMBRE DE PROFESION</b>,
                 accessor: 'nombProfesion',
@@ -89,9 +101,8 @@ class Profesiones extends Component {
                 accessor: '_id',
                 Cell: row => (
                     <span>
-                        <button className="btn btn-sm btn-outline-success p-1" onClick={this.Prueba} ><FaEdit /></button>
-                        <button className="btn btn-sm btn-outline-danger ml-1 p-1"  onClick={this.Prueba} ><FaTrashAlt /></button>
-                        <button className="btn btn-sm btn-outline-dark"> {row.value}</button>
+                        <button className="btn btn-sm btn-outline-success p-1" onClick={(e)=>this.handleUpdate(e, row.value)} ><FaEdit /></button>
+                        <button className="btn btn-sm btn-outline-danger ml-1 p-1"  onClick={(e)=>this.handleDelete(e, row.value)} ><FaTrashAlt /></button>
                     </span>
                 )
             }
@@ -109,6 +120,9 @@ class Profesiones extends Component {
                             columns={columns}
                             defaultPageSize={10}
                             className="-striped -highlight"
+                            style={{
+                                height: "-webkit-fill-available" // This will force the table body to overflow and scroll, since there is not enough room
+                            }}
                         /> 
                     </div>
                 </div>

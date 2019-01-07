@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
+import {UrlServer} from '../Utils/ServerUrlConfig'
 
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardHeader, CardText, CardBody, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
@@ -30,7 +31,7 @@ class Pacientes extends Component {
   }
 
   componentWillMount(){
-    axios.get('http://localhost:3000/examenes')
+    axios.get(`${UrlServer}/examenes`)
       .then((res) => {
           // console.log('rest',res.data);
           this.setState({
@@ -138,18 +139,31 @@ class Pacientes extends Component {
       
       
     });
-    estructSubmit.push({
+    // estructSubmit.push({
+    //   EstAtencion:false,
+    //   FechaAtencion:new Date(),
+    //   IdPaciente:"12660",
+    //   Examen: response
+    // })
+    this.setState({
+      DataSubmit:response
+    })
+    
+    
+    axios.post(`${UrlServer}/atenciones`,{
       EstAtencion:false,
       FechaAtencion:new Date(),
       IdPaciente:"12660",
       Examen: response
     })
-    this.setState({
-      DataSubmit:estructSubmit
+    .then((atencion)=>{
+      console.log(atencion);
+      alert('exito se inserto el datos'+JSON.stringify(atencion))
     })
-    console.log('response', estructSubmit);
-    
-
+    .catch((error)=>{
+      alert('error no se pudo guardar los datos')
+      console.log(error);
+    })
   }
 
   CapturaImputs(e, i, ind1, inde, unidadMedida, precio ) {
@@ -204,7 +218,7 @@ class Pacientes extends Component {
               <Col sm="8">
                   <fieldset>
                     <legend><b>DATOS DEL PACIENTE:</b></legend>
-                    {/* <code><pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre></code> */}
+                    <code><pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre></code>
 
                     <form onSubmit={this.FormBuscar}>
                       <div className="pb-2 ">

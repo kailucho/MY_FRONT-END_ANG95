@@ -6,7 +6,6 @@ class Login extends Component {
     constructor(){
         super()
         this.state = {
-            DataLoginUser:[]
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -18,27 +17,20 @@ class Login extends Component {
             "password": "german"
           })
           .then((res)=> {
-
             console.log(res.data);
-            this.setState({
-                DataLoginUser: res.data
-            })
-            // axios.defaults.headers['Authorization'] = 'bearer ' + res.data.token
 
             sessionStorage.setItem('user', res.data.userUsername)
             sessionStorage.setItem('TuToken', res.data.token)
           })
-          .catch(function (error) {
+          .catch((error)=> {
             console.log(error);
           });
-
-          
     }
     render() {
         return (
             <div className="d-flex justify-content-center" >
                 <div className="card p-4">
-                    <h4> Bienvenido: {this.state.DataLoginUser.userUsername} </h4>
+                    <h4> Bienvenido: {sessionStorage.getItem('user')} </h4>
                     <Form onSubmit={this.handleSubmit} >
                         <FormGroup row>
                             <Label for="Email" sm={5} size="sm">Email</Label>
