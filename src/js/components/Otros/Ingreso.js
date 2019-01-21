@@ -12,7 +12,7 @@ class Ingreso extends Component {
     }
 
     componentWillMount() {
-        axios.get('http://localhost:4200/strains')
+        axios.get('http://localhost:3000/usuarios')
             .then((res) => {
                 console.log('rest',res.data);
                 this.setState({
@@ -29,15 +29,15 @@ class Ingreso extends Component {
             <div>
                 <div className="card">
                     <div className="card-header">
-                        sss
+                       <b> LISTA DE USUARIOS REGISTRADOS EN EL SISTEMA</b>
                     </div>
                     <div className="card-body">
                         <fieldset>
-                            <legend>usuarios {this.state.dataUsuarios.length}</legend>
+                            <legend><b>Usuarios: {this.state.dataUsuarios.length}</b> </legend>
                             
                             {this.state.dataUsuarios.map((user, i) =>
                                 <div key={i}>
-                                    <h1>{user.nomb_usuario}</h1>
+                                    <h1>{user.nombre}</h1>
                                 </div>
                             )}
                         </fieldset>

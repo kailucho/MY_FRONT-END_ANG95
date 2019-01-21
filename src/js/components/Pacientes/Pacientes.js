@@ -112,7 +112,6 @@ class Pacientes extends Component {
   FrmGuardarAtencion(e,i){
     e.preventDefault()
     var response = [];
-    var estructSubmit = []
 
     var groupDeep = _.groupBy(this.state.DataSend, "nomb_examen");
 
@@ -139,12 +138,7 @@ class Pacientes extends Component {
       
       
     });
-    // estructSubmit.push({
-    //   EstAtencion:false,
-    //   FechaAtencion:new Date(),
-    //   IdPaciente:"12660",
-    //   Examen: response
-    // })
+
     this.setState({
       DataSubmit:response
     })
@@ -153,12 +147,12 @@ class Pacientes extends Component {
     axios.post(`${UrlServer}/atenciones`,{
       EstAtencion:false,
       FechaAtencion:new Date(),
-      IdPaciente:"12660",
+      IdPaciente: this.state.DataUsuario._id,
       Examen: response
     })
     .then((atencion)=>{
-      console.log(atencion);
-      alert('exito se inserto el datos'+JSON.stringify(atencion))
+      // console.log(atencion);
+      alert('exito se inserto el datos')
     })
     .catch((error)=>{
       alert('error no se pudo guardar los datos')
@@ -215,11 +209,8 @@ class Pacientes extends Component {
           <CardBody>
             <Card className="p-2 mb-2">
               <Row className="pb-2">
-              <Col sm="8">
-                  <fieldset>
-                    <legend><b>DATOS DEL PACIENTE:</b></legend>
-                    <code><pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre></code>
-
+                <Col sm="12">
+                  <div className="d-flex justify-content-center">
                     <form onSubmit={this.FormBuscar}>
                       <div className="pb-2 ">
                         <div className="form-check form-check-inline">
@@ -243,121 +234,112 @@ class Pacientes extends Component {
                         </div>
                       </div>
                     </form>
-                    <hr/>
-                    {fnacimiento === undefined ? "":
-                    <div>
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">N° DNI</span>
-                        </div>
-                        <label className="form-control mr-2">{dni}</label>
-
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">HCL</span>
-                        </div>
-                        <label className="form-control">{ hcl }</label>
-                      </div>
-
-
-                      {this.CalculEdad(fnacimiento)}
-                      
-
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">NOMBRE</span>
-                        </div>
-                        <label className="form-control">{nombre}</label>
-                      </div>
-                      
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">APELLIDOS</span>
-                        </div>
-                        <label className="form-control">{apellidos}</label>
-                        
-                      </div>
-
-                      <div className="input-group input-group-sm mb-2">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">SEXO</span>
-                        </div>
-                        <label className="form-control mr-2">{sexo}</label>
-
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">SEXO</span>
-                        </div>
-                        <label className="form-control"></label>
-                      </div>
-                    </div>}
-                  </fieldset> 
-                  {/* <code><pre>{JSON.stringify(this.state.DataSend, null, ' ')}</pre></code> */}
+                  </div>
 
                 </Col>
-                <Col sm="4">
-                  <fieldset>
-                    <legend><b>REFERIR AL COSULTORIO:</b></legend>
-                    <select className="form-control-sm form-control">
-                      <option>Seleccione:</option>
-                      <option>Laboratorio</option>
-                      <option>Medicina</option>
-                      <option disabled >Odontologia</option>
-                      <option disabled >Enfermeria</option>
-                    </select>
-                  </fieldset> 
+                <Col sm="12">
+                  {fnacimiento === undefined ? "":
+                    <div>
+                      <fieldset>
+                        <legend><b>DATOS DEL PACIENTE:</b></legend>
+                        {/* <code><pre>{JSON.stringify(this.state.DataSubmit, null , ' ')}</pre></code> */}
+
+                        <div>
+                          <div className="input-group input-group-sm mb-2">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text">N° DNI</span>
+                            </div>
+                            <label className="form-control mr-2">{dni}</label>
+
+                            <div className="input-group-prepend">
+                              <span className="input-group-text">HCL</span>
+                            </div>
+                            <label className="form-control mr-2">{ hcl }</label>
+
+                            <div className="input-group-prepend">
+                              <span className="input-group-text">SEXO</span>
+                            </div>
+                            <label className="form-control">{sexo}</label>
+                          </div>
+
+                          {this.CalculEdad(fnacimiento)}
+
+                          <div className="input-group input-group-sm mb-2">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text">NOMBRE</span>
+                            </div>
+                            <label className="form-control">{nombre}</label>
+                          </div>
+                          
+                          <div className="input-group input-group-sm mb-2">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text">APELLIDOS</span>
+                            </div>
+                            <label className="form-control">{apellidos}</label>
+                          </div>
+
+                        </div>
+                        
+                      </fieldset> 
+
+                      <br />
+                      <fieldset>
+                        <legend><b>REGISTRAR EXÁMEN DE LABORATORIO </b></legend>
+                        <Nav tabs className="border border-button-0">
+                          {this.state.dataExamenes.map((examen , i)=>
+                            <NavItem key={ i }>
+                              <NavLink
+                                className={classnames({ active: this.state.activeTab === (i+1).toString() })}
+                                onClick={() => { this.toggle((i+1).toString()); }}
+                              >
+                                {examen.nomb_examen}
+                              </NavLink>
+                            </NavItem>
+                          )}
+                        </Nav>
+                            
+                        <TabContent activeTab={this.state.activeTab} className="border border-top-0 p-2 bg-white">
+
+                          {this.state.dataExamenes.map((examen , i)=>
+                          
+                            <TabPane tabId={(i+1).toString()} key={ i }>
+                              <form onSubmit={(e)=> this.FrmGuardarAtencion(e, i)} className="form-group">
+
+                                <Row>
+                                  {examen.grupo1.map((subExam , ind1 ) =>
+
+                                    <Col sm="3" key={ ind1 }>
+                                      <fieldset>
+                                        <legend>{subExam.nomb_examenGrupo1} </legend>
+                                          <div className="d-flex flex-column-reverse">
+                                            {subExam.grupo2.map((subExam2, inde)=>
+
+                                              <label key={ inde }>
+                                                <input type="checkbox" name="nombExamen2" value={subExam2.nombExamen2} onClick={(e) => this.CapturaImputs(e, i, ind1, inde, subExam2.unidadMedida, subExam2.precio) } /> { ' ' }
+                                                  {subExam2.nombExamen2}                          
+                                              </label>
+                                            )}
+                                          </div>                                
+                                      </fieldset>
+                                    </Col>
+                                  )}
+                                  
+                                </Row> 
+                                  <button className="btn btn-xl btn-success float-right" type="submit">
+                                    Guardar
+                                  </button>
+                              </form>
+                            </TabPane>
+                          )}
+
+                        </TabContent>
+                      </fieldset>
+                    </div>
+                  }
                 </Col>
               </Row>
             </Card>
-            <fieldset>
-              <legend><b>REGISTRAR EXÁMEN DE LABORATORIO </b></legend>
-              <Nav tabs className="border border-button-0">
-                {this.state.dataExamenes.map((examen , i)=>
-                  <NavItem key={ i }>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === (i+1).toString() })}
-                      onClick={() => { this.toggle((i+1).toString()); }}
-                    >
-                      {examen.nomb_examen}
-                    </NavLink>
-                  </NavItem>
-                )}
-              </Nav>
-                  
-              <TabContent activeTab={this.state.activeTab} className="border border-top-0 p-2 bg-white">
-
-                {this.state.dataExamenes.map((examen , i)=>
-                
-                  <TabPane tabId={(i+1).toString()} key={ i }>
-                    <form onSubmit={(e)=> this.FrmGuardarAtencion(e, i)} className="form-group">
-
-                      <Row>
-                        {examen.grupo1.map((subExam , ind1 ) =>
-
-                          <Col sm="3" key={ ind1 }>
-                              <fieldset>
-                                <legend>{subExam.nomb_examenGrupo1} </legend>
-                                  <div className="d-flex flex-column-reverse">
-                                    {subExam.grupo2.map((subExam2, inde)=>
-
-                                      <label key={ inde }>
-                                        <input type="checkbox" name="nombExamen2" value={subExam2.nombExamen2} onClick={(e) => this.CapturaImputs(e, i, ind1, inde, subExam2.unidadMedida, subExam2.precio) } /> { ' ' }
-                                          {subExam2.nombExamen2}                          
-                                      </label>
-                                    )}
-                                  </div>                                
-                              </fieldset>
-                          </Col>
-                        )}
-                        
-                      </Row> 
-                        <button className="btn btn-xl btn-outline-primary pt-0 pb-0  float-right" type="submit">
-                          Guardar
-                        </button>
-                    </form>
-                  </TabPane>
-                )}
-
-              </TabContent>
-            </fieldset>
+        
           </CardBody>
         </Card>
       </div>

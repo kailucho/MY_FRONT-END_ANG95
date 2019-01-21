@@ -137,7 +137,7 @@ body {
 }
 
 
-/* mis correcciones a bootstrap 4  */
+/* ------------------------------------ mis correcciones a bootstrap 4  ----------------------*/
 .card {
   border-radius: 0rem;
 }
@@ -207,6 +207,14 @@ legend {
 .modal-content {
   border-radius: .0rem;
   outline: 0;
+}
+/* button clase btn */
+.btn {
+  padding: 0.275rem 0.35rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  border-radius: .0rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 /* SCROLL ANG95 */

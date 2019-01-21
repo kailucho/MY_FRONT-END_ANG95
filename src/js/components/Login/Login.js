@@ -45,7 +45,9 @@ class Login extends Component {
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <button type="submit"> enviar</button>
+                            <button type="submit" className="btn btn-outline-primary mr-2"> INGRESAR</button>
+                            <button type="submit" className="btn btn-outline-danger"> CANCELAR</button>
+                            
                         </FormGroup>
                     </Form>
           

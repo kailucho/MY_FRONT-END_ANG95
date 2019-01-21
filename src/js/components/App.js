@@ -11,7 +11,8 @@ import Inicio from './Inicio/Inicio';
 import Pacientes from './Pacientes/pacientes';
 import Ingreso from './Otros/Ingreso';
 import Profesiones from './Administracion/Profesiones'    
-import Login from './Login/Login'    
+import Login from './Login/Login'  
+import AtenPendientes from './Admision/AtenPendientes'  
 
 class AppAng extends Component {
     constructor(){
@@ -91,10 +92,10 @@ class AppAng extends Component {
                                                 <UncontrolledCollapse toggler="#ADMINS">
                                                     <ul className="nav flex-column ull">
                                                         <li className="lii">
-                                                            <Link to="NuevaAtencion" className="nav-link"><FaLinode /> Pacientes</Link>
+                                                            <Link to="/NuevaAtencion" className="nav-link"><FaLinode /> Pacientes</Link>
                                                         </li>
                                                         <li className="lii">
-                                                            <a className="nav-link" href="#about"> <FaLinode /> Referir</a>
+                                                            <Link to="/AtenPendientes" className="nav-link"> <FaLinode /> Aten. Pendientes</Link>
                                                         </li>
                                                     </ul>
                                                 </UncontrolledCollapse>
@@ -162,6 +163,7 @@ class AppAng extends Component {
                                     <Route path ="/Inicio" component={Inicio} />
                                     <Route path="/NuevaAtencion" component={Pacientes} />
                                     <Route path="/Profesiones" component={Profesiones} />
+                                    <Route path="/AtenPendientes" component={AtenPendientes} />
                                     <Route path="/Ingreso" component={Ingreso} />
                                     {/* <br/>
                                     <ButtonParent /> */}

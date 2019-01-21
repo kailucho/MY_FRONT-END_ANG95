@@ -11,23 +11,27 @@ class Profesiones extends Component {
         super();
         this.state = {
           data: [],
-          modal: false,
-          InputnombProfesion: '',
-          toastId: null
+          modalCreaP: false,
+          modalEditaP: false,
+          InputnombProfesionId: '',
+          nombProfesion:'',
+          toastId: null,
+          DataEditaId:[]
         };
-        this.toggle = this.toggle.bind(this);
+        this.modalCreaProfesion = this.modalCreaProfesion.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        this.handleUpdate = this.handleUpdate.bind(this);
+        this.modalEditaProfesion = this.modalEditaProfesion.bind(this);
+        this.handelUpdate = this.handelUpdate.bind(this);
         
     }
     
-    componentDidMount(){
+    componentWillMount(){
         // OBTIENE DATA DEL SERVIDOR-------------------------------------------------------
         axios.get(`${UrlServer}/profesiones`)
         .then((res) => {
-            // console.log('rest',res.data);
+            console.log('rest',res.data);
             this.setState({
                 data: res.data
             })
@@ -37,22 +41,27 @@ class Profesiones extends Component {
         });
     }
 
-    toggle() {
+    modalCreaProfesion() {
         this.setState({
-          modal: !this.state.modal
+            modalCreaP: !this.state.modalCreaP
         });
     }
     handleChange(event) {
-        this.setState({InputnombProfesion: event.target.value});
+        this.setState(
+            {
+                InputnombProfesion: event.target.value,
+                InputnombProfesionId:event.target.value
+            }
+        );
     }
 
     handleSubmit(event) {
         event.preventDefault();        
-        const { InputnombProfesion } = this.state
+        const { InputnombProfesionId } = this.state
         
         // ENVIA DATOS AL SERVIDOR-------------------------------------------------------
         axios.post(`${UrlServer}/profesiones`, {
-            nombProfesion: InputnombProfesion.toUpperCase()
+            nombProfesion: InputnombProfesionId.toUpperCase()
           })
           .then((res)=> {
             alert(`PERFECT!!!`, res)         
@@ -72,9 +81,7 @@ class Profesiones extends Component {
         e.preventDefault()
         if(confirm('Estas seguro de eliminar la prefesón?')){
             console.log('hola tu mensaje', );
-            axios.delete(`${UrlServer}/profesiones/${id}`,{
-
-            })
+            axios.delete(`${UrlServer}/profesiones/${id}`)
             .then((res)=>{
                 console.log(res);
             })
@@ -83,11 +90,31 @@ class Profesiones extends Component {
             })
         }
     }
-    handleUpdate(){
-        alert('¿Estas seguro de actualizar la profesión?');
-        
+    modalEditaProfesion(e, cero){
+        var result = this.state.data.filter((IdFiltrado)=>{
+            return IdFiltrado._id === cero
+        })
+        this.setState({
+            modalEditaP: !this.state.modalEditaP,
+            DataEditaId:result[0],
+            InputnombProfesionId: result[0].nombProfesion
+        });   
     }
+    handelUpdate(e){
+        e.preventDefault()
+        const { InputnombProfesion } = this.state
 
+        axios.put(`${UrlServer}/profesiones/${this.state.DataEditaId._id}`,{
+            nombProfesion: InputnombProfesion.toUpperCase()
+        })
+        .then((data)=>{
+            console.log('exito>', data);
+            
+        })
+        .catch((error)=>{
+            console.log('hay un console.error', error);
+        })
+    }
     render() {
         const { data } = this.state;
         const columns = [
@@ -101,7 +128,7 @@ class Profesiones extends Component {
                 accessor: '_id',
                 Cell: row => (
                     <span>
-                        <button className="btn btn-sm btn-outline-success p-1" onClick={(e)=>this.handleUpdate(e, row.value)} ><FaEdit /></button>
+                        <button className="btn btn-sm btn-outline-success p-1" onClick={(e)=>this.modalEditaProfesion(e, row.value)} ><FaEdit /></button>
                         <button className="btn btn-sm btn-outline-danger ml-1 p-1"  onClick={(e)=>this.handleDelete(e, row.value)} ><FaTrashAlt /></button>
                     </span>
                 )
@@ -112,7 +139,7 @@ class Profesiones extends Component {
                 <div className="card">
                     <div className="card-header p-1">
                         <label className="float-left pt-2"><b> LISTA DE PROFESIONES</b></label>
-                        <button className="btn btn-sm float-right m-0" onClick={this.toggle}><FaPlus /> Nuevo</button>
+                        <button className="btn btn-sm float-right m-0" onClick={this.modalCreaProfesion}><FaPlus /> Nuevo</button>
                     </div>
                     <div className="card-body p-0">
                         <ReactTable
@@ -128,8 +155,8 @@ class Profesiones extends Component {
                 </div>
 
                
-               {/* MODAL PROFESIONES */}
-               <Modal isOpen={this.state.modal} fade={false} toggle={this.toggle} className={this.props.className} size="sm">
+               {/* MODAL REGISTRA PROFESIONES */}
+               <Modal isOpen={this.state.modalCreaP} fade={false} toggle={this.modalCreaProfesion} className={this.props.className} size="sm">
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
                             <FormGroup>
@@ -139,10 +166,31 @@ class Profesiones extends Component {
                         </ModalBody>
                         <ModalFooter className="p-2 bg-light">
                             <Button color="primary" type="submit" className="btn btn-sm btn-outline-primary ml-1 p-1"><FaSave size="1em"/> Guardar</Button>{' '}
-                            <Button color="secondary" className="btn btn-sm btn-outline-danger ml-1 p-1" onClick={this.toggle}> <FaTimes /> Cancelar</Button>
+                            <Button color="secondary" className="btn btn-sm btn-outline-danger ml-1 p-1" onClick={this.modalCreaProfesion}> <FaTimes /> Cancelar</Button>
                         </ModalFooter>
                     </Form>
                 </Modal>
+
+                {/* MODAL EDITA/ACTUALIZA PROFESIONES */}
+               <Modal isOpen={this.state.modalEditaP} fade={false} toggle={(e)=>this.modalEditaProfesion(e, this.state.DataEditaId._id)} className={this.props.className} size="sm">
+                    <Form onSubmit={this.handelUpdate}>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for="nombProfesion"><b>EDITA /ACTUALIZA PROFESION</b></Label>
+                                    
+                                <Input type="text" className="text-uppercase"
+                                 placeholder={this.state.DataEditaId.nombProfesion} 
+                                 value={this.state.InputnombProfesionId} onChange={this.handleChange} />
+                            </FormGroup>
+                        </ModalBody>
+                        <ModalFooter className="p-2 bg-light">
+                            <Button color="primary" type="submit" className="btn btn-sm btn-outline-primary ml-1 p-1"><FaSave size="1em"/> Guardar</Button>{' '}
+                            <Button color="secondary" className="btn btn-sm btn-outline-danger ml-1 p-1" onClick={(e)=>this.modalEditaProfesion(e, this.state.DataEditaId._id)}> <FaTimes /> Cancelar</Button>
+                        </ModalFooter>
+                    </Form>
+                </Modal>
+
+
             </div>
         );
     }
